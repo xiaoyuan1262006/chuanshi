@@ -14,7 +14,7 @@ class Place(models.Model):
 class Event(models.Model):
     time=models.DateField('时间',null=True,blank=True,default=None)
     place=models.ForeignKey(Place,verbose_name='地点',null=True,blank=True,default=None)
-    members=models.ManyToManyField(User,verbose_name='参与人',null=True,blank=True,default=None)
+    members=models.ManyToManyField(User,verbose_name='参与人',blank=True,default=None)
     cost=models.DecimalField('消费金额',max_digits=5, decimal_places=2,null=True,blank=True,default=None)
 
     def __str__(self):
