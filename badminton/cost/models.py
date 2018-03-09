@@ -18,7 +18,7 @@ class Event(models.Model):
     cost=models.DecimalField('消费金额',max_digits=5, decimal_places=2,null=True,blank=True,default=None)
 
     def __str__(self):
-        return '%s %s' % (self.time,self.place)
+        return '%s %s %s %s' % (self.time,self.place,self.members,self.cost)
 
     class Meta:
         ordering = ('-time',)
@@ -31,7 +31,7 @@ class Recharge(models.Model):
     recharge = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=100.00)
 
     def __str__(self):
-        return '%s %s' % (self.time,self.member)
+        return '%s %s %s' % (self.time,self.member,self.recharge)
 
     class Meta:
         ordering = ('-time',)
