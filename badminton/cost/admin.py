@@ -24,9 +24,27 @@ class EventAdmin(admin.ModelAdmin):
 
 class RechargeAdmin(admin.ModelAdmin):
     list_display = ['time', 'member', 'recharge']
+    list_filter = ('member',)
+    def save_model(self, request, obj, form, change):
+        id=obj.id
+
+        if change:
+            for recharge_and_cost in obj.recharge_recharges.all():
+                recharge_and_cost.delete()
+        else:
+            obj.save()
+
+        Recharge_and_cost.objects.create(
+            recharge=obj,
+            member=obj.member,
+            amount=form.cleaned_data['recharge']
+            )
+        super().save_model(request, obj, form, change)
+
 
 class Recharge_and_costAdmin(admin.ModelAdmin):
-    list_display = ['event', 'member', 'cost']
+    list_display = ['event', 'member', 'cost','recharge','amount']
+    list_filter = ('member',)
 
 admin.site.register(Place)
 admin.site.register(Event,EventAdmin)
