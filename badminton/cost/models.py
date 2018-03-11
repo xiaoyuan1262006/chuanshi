@@ -50,13 +50,14 @@ class Recharge_and_cost(models.Model):
     event=models.ForeignKey(Event,verbose_name='事件',null=True,blank=True,default=None,related_name='event_costs')
     member=models.ForeignKey(User,verbose_name='人员',null=True,blank=True,default=None)
     cost=models.DecimalField(verbose_name='消费金额',max_digits=5,decimal_places=2,null=True,blank=True,default=0.00)
-    recharge=models.ForeignKey(Recharge,verbose_name='充值金额',null=True,blank=True,default=None)
+    recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=None,related_name='recharge_recharges')
+    amount = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=0.00)
 
     def __str__(self):
         return '%s %s %s %s' % (self.event,self.member,self.cost,self.recharge)
 
     class Meta:
-        ordering = ('-event',)
+        ordering = ('-event','-recharge')
         verbose_name = '充值及消费记录'
         verbose_name_plural = verbose_name
 
