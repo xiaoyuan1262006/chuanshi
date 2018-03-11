@@ -57,7 +57,7 @@ class Recharge_and_cost(models.Model):
         return '%s %s %s %s' % (self.event,self.member,self.cost,self.recharge)
 
     class Meta:
-        ordering = ('-event','-recharge')
+        ordering = ('-event','recharge')
         verbose_name = '充值及消费记录'
         verbose_name_plural = verbose_name
 
