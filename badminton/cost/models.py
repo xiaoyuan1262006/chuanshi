@@ -20,7 +20,7 @@ class Event(models.Model):
     def __str__(self):
         return '%s %s'  % (self.time,self.place)
 
-    def  iteMembers(self):
+    def iteMembers(self):
         stringname = ''
         for person in self.members.all():
             stringname += person.username+" "
@@ -39,7 +39,7 @@ class Recharge(models.Model):
     recharge = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=100.00)
 
     def __str__(self):
-        return '%s %s %s' % (self.time,self.member,self.recharge)
+        return '%s' % self.time
 
     class Meta:
         ordering = ('-time',)
@@ -51,7 +51,7 @@ class Recharge_and_cost(models.Model):
     member=models.ForeignKey(User,verbose_name='人员',null=True,blank=True,default=None)
     cost=models.DecimalField(verbose_name='消费金额',max_digits=5,decimal_places=2,null=True,blank=True,default=0.00)
     recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=None,related_name='recharge_recharges')
-    amount = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=0.00)
+    # amount = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=0.00)
 
     def __str__(self):
         return '%s %s %s %s' % (self.event,self.member,self.cost,self.recharge)
@@ -61,4 +61,30 @@ class Recharge_and_cost(models.Model):
         verbose_name = '充值及消费记录'
         verbose_name_plural = verbose_name
 
+    def amount(self):
+        if self.recharge:
+            return self.recharge.recharge
+        else:
+            return 0
+    amount.short_description='充值金额'
 
+    def time(self):
+        if self.recharge:
+            return self.recharge.time
+        else:
+            return self.event.time
+    time.short_description='发生时间'
+    
+    def place(self):
+        if self.event:
+            return self.event.place
+        else:
+            return ''
+    place.short_description='发生地点'
+    
+    def event_name(self):
+        if self.event:
+            return '活动'
+        else:
+            return '充值'
+    event_name.short_description='事件'

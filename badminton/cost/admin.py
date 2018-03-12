@@ -37,14 +37,28 @@ class RechargeAdmin(admin.ModelAdmin):
         Recharge_and_cost.objects.create(
             recharge=obj,
             member=obj.member,
-            amount=form.cleaned_data['recharge']
+            # amount=form.cleaned_data['recharge']
             )
         super().save_model(request, obj, form, change)
 
-
+class RechargeAndCostEventFilter(admin.SimpleListFilter):
+    title='事件类型'
+    parameter_name=''
+    
+    def lookups(self, request, model_admin):
+        return (
+            ('event', '活动'),
+            ('recharge', '充值'),
+        )
+    def queryset(self, request, queryset):
+        if self.value()=='event':
+            return queryset.filter(event__isnull=False)
+        if self.value()=='recharge':
+            return queryset.filter(recharge__isnull=False)
+            
 class Recharge_and_costAdmin(admin.ModelAdmin):
-    list_display = ['event', 'member', 'cost','recharge','amount']
-    list_filter = ('member',)
+    list_display = ['event_name', 'member', 'cost','time','place','amount']
+    list_filter = ('member',RechargeAndCostEventFilter)
 
 admin.site.register(Place)
 admin.site.register(Event,EventAdmin)
