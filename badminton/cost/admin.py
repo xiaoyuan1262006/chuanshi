@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Place,Event,Recharge,Recharge_and_cost
 
+
 class EventAdmin(admin.ModelAdmin):
     list_display = ['time', 'place', 'iteMembers', 'cost']
     filter_horizontal=('members',)
@@ -18,8 +19,10 @@ class EventAdmin(admin.ModelAdmin):
             Recharge_and_cost.objects.create(
                 event=obj,
                 member=member,
+                times =obj.time,
                 cost=form.cleaned_data['cost']/form.cleaned_data['members'].count()
             )
+
         super().save_model(request, obj, form, change)
 
 class RechargeAdmin(admin.ModelAdmin):
@@ -37,7 +40,7 @@ class RechargeAdmin(admin.ModelAdmin):
         Recharge_and_cost.objects.create(
             recharge=obj,
             member=obj.member,
-            # amount=form.cleaned_data['recharge']
+            times = obj.time
             )
         super().save_model(request, obj, form, change)
 
@@ -50,7 +53,6 @@ class RechargeAndCostEventFilter(admin.SimpleListFilter):
             ('event', '活动'),
             ('recharge', '充值'),
         )
-        
     def queryset(self, request, queryset):
         if self.value()=='event':
             return queryset.filter(event__isnull=False)
@@ -58,16 +60,22 @@ class RechargeAndCostEventFilter(admin.SimpleListFilter):
             return queryset.filter(recharge__isnull=False)
             
 class Recharge_and_costAdmin(admin.ModelAdmin):
-    list_display = ['event_name', 'member', 'cost','time','place','amount']
-    list_filter = ('member',RechargeAndCostEventFilter)
-    list_display_links=None
-    actions=None
-    
+    list_display = ['event_name','times','member', 'cost','place','amount']
+    list_filter = (RechargeAndCostEventFilter,)
+    list_display_links = None
+    actions = None
+    list_per_page = 20
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(member=request.user)
+
+
+class MyAdminSite(admin.AdminSite):
+    admin.site.site_header = '传世羽毛球计费系统'# 此处设置页面显示标题
+    admin.site.site_title = '传世羽毛球计费系统'# 此处设置页面头部标题
 
 admin.site.register(Place)
 admin.site.register(Event,EventAdmin)
