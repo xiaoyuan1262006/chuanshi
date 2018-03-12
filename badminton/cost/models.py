@@ -13,7 +13,7 @@ class Place(models.Model):
 
 class Event(models.Model):
     time=models.DateField('时间',null=True,blank=True,default=None)
-    place=models.ForeignKey(Place,verbose_name='地点',null=True,blank=True,default=None)
+    place=models.ForeignKey(Place,verbose_name='地点',null=True,blank=True,default=None,on_delete=models.CASCADE)
     members=models.ManyToManyField(User,verbose_name='参与人',blank=True,default=None)
     cost=models.DecimalField('消费金额',max_digits=5, decimal_places=2,null=True,blank=True,default=None)
 
@@ -35,7 +35,7 @@ class Event(models.Model):
 
 class Recharge(models.Model):
     time = models.DateField(verbose_name='时间', null=True, blank=True, default=None)
-    member = models.ForeignKey(User, verbose_name='人员', null=True, blank=True, default=None)
+    member = models.ForeignKey(User, verbose_name='人员', null=True, blank=True, default=None,on_delete=models.CASCADE)
     recharge = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=100.00)
 
     def __str__(self):
@@ -47,10 +47,10 @@ class Recharge(models.Model):
         verbose_name_plural = verbose_name
 
 class Recharge_and_cost(models.Model):
-    event=models.ForeignKey(Event,verbose_name='事件',null=True,blank=True,default=None,related_name='event_costs')
-    member=models.ForeignKey(User,verbose_name='人员',null=True,blank=True,default=None)
+    event=models.ForeignKey(Event,verbose_name='事件',null=True,blank=True,default=None,related_name='event_costs',on_delete=models.CASCADE)
+    member=models.ForeignKey(User,verbose_name='人员',null=True,blank=True,default=None,on_delete=models.CASCADE)
     cost=models.DecimalField(verbose_name='消费金额',max_digits=5,decimal_places=2,null=True,blank=True,default=0.00)
-    recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=None,related_name='recharge_recharges')
+    recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=None,related_name='recharge_recharges',on_delete=models.CASCADE)
     # amount = models.DecimalField(verbose_name='充值金额',max_digits=5, decimal_places=2, null=True, blank=True, default=0.00)
 
     def __str__(self):
