@@ -50,6 +50,7 @@ class RechargeAndCostEventFilter(admin.SimpleListFilter):
             ('event', '活动'),
             ('recharge', '充值'),
         )
+        
     def queryset(self, request, queryset):
         if self.value()=='event':
             return queryset.filter(event__isnull=False)
@@ -59,6 +60,14 @@ class RechargeAndCostEventFilter(admin.SimpleListFilter):
 class Recharge_and_costAdmin(admin.ModelAdmin):
     list_display = ['event_name', 'member', 'cost','time','place','amount']
     list_filter = ('member',RechargeAndCostEventFilter)
+    list_display_links=None
+    actions=None
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(member=request.user)
 
 admin.site.register(Place)
 admin.site.register(Event,EventAdmin)
