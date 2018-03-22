@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font: 20px/40px "microsoft yahei";
+        }
+
+        #container {
+            width: 90%;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #header,
+        #footer {
+            height: 12.5%;
+        }
+
+        #main {
+            height: 75%;
+        }
+
+        #center,
+        #left,
+        #right {
+            height: 100%;
+            float: left;
+        }
+
+        #center {
+            width: 100%;
+        }
+
+        #right {
+            width: 20%;
+            margin-left: -20%;
+        }
+
+        #left {
+            width: 20%;
+            margin-left: -100%;
+        }
+
+        #main-inner {
+            padding-left: 20%;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+    </div>
+    <div id="main">
+        <div id="center">
+            <div id="main-inner">
+                <form method="post" action="/cost/login">
+                    <table>
+                        <tr>
+                            <td>用户名</td>
+                            <td><input type="text" name="username"></td>
+                        </tr>
+                        <tr>
+                            <td>密码</td>
+                            <td><input type="password" name="password"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" value="登录"></td>
+                            <td><input type="reset" value="重置"></td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+        <div id="left">
+        </div>
+        <div id="right">
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+</div>
+</body>
+</html>
