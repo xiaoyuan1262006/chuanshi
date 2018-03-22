@@ -50,7 +50,7 @@ class Recharge_and_cost(models.Model):
     event=models.ForeignKey(Event,verbose_name='事件',null=True,blank=True,default=None,related_name='event_costs',on_delete=models.CASCADE)
     member=models.ForeignKey(User,verbose_name='人员',null=True,blank=True,default=None,on_delete=models.CASCADE)
     cost=models.DecimalField(verbose_name='消费金额',max_digits=5,decimal_places=2,null=True,blank=True,default=0.00)
-    recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=None,related_name='recharge_recharges',on_delete=models.CASCADE)
+    recharge=models.ForeignKey(Recharge,verbose_name='充值',null=True,blank=True,default=0.00,related_name='recharge_recharges',on_delete=models.CASCADE)
     times = models.DateField(verbose_name='时间', null=True, blank=True, default=None)
 
     def __str__(self):

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font: 20px/40px "microsoft yahei";
+        }
+
+        #container {
+            width: 90%;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #header,
+        #footer {
+            height: 12.5%;
+        }
+
+        #main {
+            height: 75%;
+        }
+
+        #center,
+        #left,
+        #right {
+            height: 100%;
+            float: left;
+        }
+
+        #center {
+            width: 100%;
+        }
+
+        #right {
+            width: 20%;
+            margin-left: -20%;
+        }
+
+        #left {
+            width: 10%;
+        }
+
+        #main-inner {
+            padding-left: 5%;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <table border="0" width="100%" class="top">
+            <tr>
+                <td width="70%"></td>
+                <td width="20%">欢迎你，{{ request.session.user }}</td>
+                <td width="10%"><a href="/cost/logout"> 退出</a></td>
+            </tr>
+        </table>
+    </div>
+    <div id="main">
+        <div id="center">
+            <div id="main-inner">
+                <table border="0" class="table table-condensed table-hover table-condensed table-bordered">
+                    <thead>
+                    <tr style="background-color: lightblue">
+                        <td>事件</td>
+                        <td>时间</td>
+                        <td>人员</td>
+                        <td>消费金额</td>
+                        <td>发生地点</td>
+                        <td>充值金额</td>
+                        <td>余额</td>
+                    </tr>
+                    </thead>
+                    {#    {{ qs.cost }} {{ qs.cost }}#}
+                    {% for oneqs in contacts %}
+                        <tr>
+                            <td>{{ oneqs.event_name }}</td>
+                            <td>{{ oneqs.times }}</td>
+                            <td>{{ oneqs.member }}</td>
+                            <td>{{ oneqs.cost }}</td>
+                            <td>{{ oneqs.place }}</td>
+                            <td>{{ oneqs.amount }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td> 合计</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ costsum }}</td>
+                        <td></td>
+                        <td>{{ amountsum }}</td>
+                        <td>{{ remainder }}</td>
+                    </tr>
+                </table>
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if contacts.has_previous %}
+                            <a href="?page={{ contacts.previous_page_number }}">上一页</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+                        </span>
+
+                        {% if contacts.has_next %}
+                            <a href="?page={{ contacts.next_page_number }}">下一页</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="left">
+        </div>
+        <div id="right">
+        </div>
+    </div>
+    <div id="footer">
+    </div>
+</div>
+
+
+</body>
+</html>

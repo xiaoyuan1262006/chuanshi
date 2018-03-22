@@ -23,7 +23,8 @@ class EventAdmin(admin.ModelAdmin):
                 cost=form.cleaned_data['cost']/form.cleaned_data['members'].count()
             )
 
-        super().save_model(request, obj, form, change)
+        super(EventAdmin, self).save_model(request, obj, form, change)
+#         super().save_model(request, obj, form, change)
 
 class RechargeAdmin(admin.ModelAdmin):
     list_display = ['time', 'member', 'recharge']
@@ -42,7 +43,8 @@ class RechargeAdmin(admin.ModelAdmin):
             member=obj.member,
             times = obj.time
             )
-        super().save_model(request, obj, form, change)
+        super(RechargeAdmin, self).save_model(request, obj, form, change)
+        # super().save_model(request, obj, form, change)
 
 class RechargeAndCostEventFilter(admin.SimpleListFilter):
     title='事件类型'
@@ -67,7 +69,8 @@ class Recharge_and_costAdmin(admin.ModelAdmin):
     list_per_page = 20
 
     def get_queryset(self, request):
-        qs = super().get_queryset(request)
+        # qs = super().get_queryset(request)
+        qs = super(Recharge_and_costAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(member=request.user)
